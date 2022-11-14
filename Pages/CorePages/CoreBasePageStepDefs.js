@@ -1,5 +1,9 @@
 ﻿var _basePage = new (require("BasePage")).BasePage;
 
+Given("I see the popup message {arg} and click the button {arg}", function (message, buttonName)
+{
+    _basePage.ISeeThePopupMessageP1AndClickTheButtonP2(message, buttonName);
+});
 
 Given("I see the {arg} window", function (windowCaption)
 {

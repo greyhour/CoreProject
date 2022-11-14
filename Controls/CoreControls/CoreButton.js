@@ -1,13 +1,26 @@
 ﻿var _common = new (require("Common")).Common;
 
 class CoreButton {
+    GetButton(buttonName) {
+        return _common.CurrentForm().FindChild("Caption", buttonName, 10);
+    }
+
     IClickTheButtonP1(buttonName) {
         if(buttonName == "{N/A}" || buttonName == "") { return; }
         
-        var objButton = _common.CurrentForm().FindChild("Caption", buttonName, 10);
+        var objButton = this.GetButton(buttonName);
         objButton.Click();
         
         Log.Checkpoint("Clicked normal button " + buttonName + "!");
+    }
+
+    IDoubleClickTheButtonP1(buttonName) {
+        if(buttonName == "{N/A}" || buttonName == "") { return; }
+        
+        var objButton = this.GetButton(buttonName);
+        objButton.DblClick();
+        
+        Log.Checkpoint("Doubleclicked normal button " + buttonName + "!");
     }
     
     OnP1IClickTheButtonP2(objectName, buttonName) {
@@ -19,15 +32,6 @@ class CoreButton {
         objButton.Click();
         
         Log.Checkpoint("Clicked normal button " + buttonName + "!");
-    }
-  
-    IDoubleClickTheButtonP1(buttonName) {
-        if(buttonName == "{N/A}" || buttonName == "") { return; }
-        
-        var objButton = _common.CurrentForm().FindChild("Caption", buttonName, 10);
-        objButton.DblClick();
-        
-        Log.Checkpoint("Doubleclicked normal button " + buttonName + "!");
     }
 }
 

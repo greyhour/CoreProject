@@ -10,3 +10,7 @@ Given("I select the value {arg} from the multiselect dropdown {arg}", function (
     _dropdown.ISelectTheValueP1FromTheMultiselectDropdownP2(dropdownName, value);
 });
 
+Given("I should see the value {arg} selected in the dropdown {arg}", function (value, dropdownName)
+{
+    _dropdown.IShouldSeeTheValueP1SelectedInTheDropdownP2(dropdownName, value);
+});

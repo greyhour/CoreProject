@@ -34,6 +34,18 @@ class CoreHomePage {
         }
     }
 
+    IShouldNotSeeMenuItemP1InTheLeftNavigationMenuVarForP2(menuItemCaption, subMenuItemCaption) {
+        // lets get all the main menu items with the expected caption
+        var objSideBar = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Caption", "Main Navigation", 7);
+        var objmenuItem = objSideBar.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
+        var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("Visible", "Caption"), Array(true, subMenuItemCaption), 3));
+        
+        // if there is more than one item found something must have gone wrong!
+        if(objsubMenuItems.length != 0){
+            Log.Error("The submenu item " + subMenuItemCaption + " was found at least once!");
+        }
+    }
+
     IOpenP1FromNavbarmenuListP2AndIWillSeeP3Window(subMenuItemCaption, menuItemCaption, windowCaption) {
         var objSideBar = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Caption", "Main Navigation", 7);
         var objmenuItem = objSideBar.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
@@ -43,6 +55,15 @@ class CoreHomePage {
 
         _basePage.ISeeTheP1Window(windowCaption);
     }
+
+
+
+
+
+
+
+
+
     
     ISelectTabP1AndScrollTheNavigationMenuToThePositionP2(tabCaption, position) {
         // select the expected main menu item. (mainly used for reports because we cannot collapse the menu items)
