@@ -1,0 +1,3 @@
+# Ignore files automatically created by testcomplete
+**/Visualizer/
+*.bak
