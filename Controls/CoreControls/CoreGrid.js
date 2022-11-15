@@ -11,7 +11,9 @@ class CoreGrid {
     OnGridP1ISelectTheCheckboxForTheFollowingRecordInTheListP2(gridName, record) {
         var objRecord = this.GetRecord(gridName, record);
         
-        objRecord.FindChild(Array("ObjectType", "Value"), Array("Cell", "Unchecked"), 3).Click();
+        // testcomplete findchild goes back to front, finding the last object first
+        var objCheckboxes = Array.from(objRecord.FindAllChildren(Array("ObjectType", "Value"), Array("Cell", "Unchecked"), 3));
+        objCheckboxes[objCheckboxes.length - 1].Click();
     }
 
     OnGridP1IEnterTheValueP2IntoFilterColumnP3(gridName, filterColumn, value) {
@@ -42,6 +44,28 @@ class CoreGrid {
             return;
         }
         Log.Checkpoint("The record was found successfully");
+    }
+
+    OnGridP1IShouldNotSeeTheFollowingRecordInTheListP2(gridName, record) {
+        var objRecord = this.GetRecord(gridName, record);
+
+        if (objRecord.Exists) {
+            Log.Error("he record was found");
+            return;
+        }
+        Log.Checkpoint("The record was not found");
+    }
+
+    OnGridP1IShouldSeeP2RecordsInTheList(gridName, recordCount) {
+        var objGrid = this.GetGrid(gridName);
+        var objDataPanel = objGrid.FindChild("Name", "*Data*Panel*", 5);
+
+        if(!objDataPanel.ChildCount == recordCount) {
+            Log.Error("There was a wrong amount of records found: " + dataPanelObj.ChildCount);
+            return;
+        }
+
+        Log.Checkpoint("The correct amount of records were found");
     }
 }
 

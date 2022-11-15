@@ -24,3 +24,13 @@ Given("On grid {arg} i should see the following record in the list {arg}", funct
 {
     _grid.OnGridP1IShouldSeeTheFollowingRecordInTheListP2(gridName, record);
 });
+
+Given("On grid {arg} i should not see the following record in the list {arg}", function (gridName, record)
+{
+    _grid.OnGridP1IShouldNotSeeTheFollowingRecordInTheListP2(gridName, record);
+});
+
+Given("On grid {arg} i should see {arg} records in the list", function (gridName, recordCount)
+{
+    _grid.OnGridP1IShouldSeeP2RecordsInTheList(gridName, recordCount);
+});

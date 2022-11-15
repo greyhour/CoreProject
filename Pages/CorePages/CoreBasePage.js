@@ -7,9 +7,13 @@ class CoreBasePage {
         var objPopup = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild(Array("VisibleOnScreen", "Name"), Array(true, "Dialog*"), 2);
         var objMessage = objPopup.FindChild(Array("VisibleOnScreen", "Value"), Array(true, message));
 
-        if(!objMessage.Exists){
-            Log.Error("The message was not found!");
-            return;
+        if(!objMessage.Exists) {
+            objMessage = objPopup.FindChild(Array("VisibleOnScreen", "Caption"), Array(true, message));
+            
+            if(!objMessage.Exists) {
+                Log.Error("The message was not found!");
+                return;
+            }
         }
         
         Log.Checkpoint("The message was found successfully");
