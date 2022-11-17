@@ -39,7 +39,7 @@ class CoreGrid {
     OnGridP1IShouldSeeTheFollowingRecordInTheListP2(gridName, record) {
         var objRecord = this.GetRecord(gridName, record);
 
-        if (!objRecord.Exists) {
+        if (!(objRecord.Exists)) {
             Log.Error("The record was not found succesfully");
             return;
         }
@@ -60,8 +60,8 @@ class CoreGrid {
         var objGrid = this.GetGrid(gridName);
         var objDataPanel = objGrid.FindChild("Name", "*Data*Panel*", 5);
 
-        if(!objDataPanel.ChildCount == recordCount) {
-            Log.Error("There was a wrong amount of records found: " + dataPanelObj.ChildCount);
+        if(!(objDataPanel.ChildCount == recordCount)) {
+            Log.Error("There was a wrong amount of records found: " + objDataPanel.ChildCount);
             return;
         }
 

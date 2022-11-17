@@ -21,11 +21,11 @@ class CoreTab {
     IShouldNotSeeTheFollowingTab(tabName){
         var objTab = _common.CurrentForm().FindChild("Caption", tabName, 15);
 
-        if (!objTab.Exists) {
+        if (!(objTab.Exists)) {
             Log.CheckPoint("The tab was not found");
             return;
         }
-        else if (!objTab.Visible) {
+        else if (!(objTab.Visible)) {
             Log.CheckPoint("The tab was not found");
             return;
         }

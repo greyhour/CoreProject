@@ -4,7 +4,7 @@ class CoreInputbox {
     IEnterTheValueP1IntoTheInputboxP2(inputboxName, value) {
         if(inputboxName == "{N/A}" || inputboxName == "") { return; }
     
-        var objInputbox = _common.CurrentForm().FindChild("WinFormsControlName", ("*" + inputboxName), 20);
+        var objInputbox = _common.CurrentForm().FindChild(Array("Visible", "WinFormsControlName"), Array(true, ("*" + inputboxName)), 20);
         
         objInputbox.Focus();
         objInputbox.Keys("^a" + value);

@@ -25,6 +25,12 @@ Given("I open {arg} from navbarmenu list {arg} and I will see {arg} window", fun
 
 
 
+Given("I have opened tools > settings", function ()
+{
+    _homePage.IHaveOpenedToolsSettings();
+});
+
+
 
 // #region here we cater for the reports
 Given("I select tab {arg} and scroll the navigation menu to the position {arg}", function (tabCaption, position)

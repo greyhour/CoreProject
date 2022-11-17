@@ -6,6 +6,10 @@ class Common {
         Log.Message("The script was delayed [" + seconds + "] seconds");
     }
 
+    IPressTheEnterKey() {
+        this.CurrentForm().Keys("[Enter]");
+    }
+
     
     
     

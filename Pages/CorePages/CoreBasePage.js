@@ -7,10 +7,10 @@ class CoreBasePage {
         var objPopup = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild(Array("VisibleOnScreen", "Name"), Array(true, "Dialog*"), 2);
         var objMessage = objPopup.FindChild(Array("VisibleOnScreen", "Value"), Array(true, message));
 
-        if(!objMessage.Exists) {
+        if(!(objMessage.Exists)) {
             objMessage = objPopup.FindChild(Array("VisibleOnScreen", "Caption"), Array(true, message));
             
-            if(!objMessage.Exists) {
+            if(!(objMessage.Exists)) {
                 Log.Error("The message was not found!");
                 return;
             }
@@ -40,7 +40,7 @@ class CoreBasePage {
         var exception_winform_error = Sys.Process(Project.Variables.CurrentWorkingApp).FindAllChildren("WinFormsControlName", "*Exception*", 2);
         var error_winform_error = Sys.Process(Project.Variables.CurrentWorkingApp).FindAllChildren("WinFormsControlName", "*Error*", 2);
         
-        if(!exception_name_error.length == 0 || !error_name_error.length == 0 || !exception_winform_error.length == 0 || !error_winform_error.length == 0)
+        if(!(exception_name_error.length == 0) || !(error_name_error.length == 0) || !(exception_winform_error.length == 0) || !(error_winform_error.length == 0))
         {
             Log.Error("[IMMEDIATE FAIL] : Unexpected error message is present");
         }

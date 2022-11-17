@@ -29,7 +29,7 @@ class CoreHomePage {
         var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("Visible", "Caption"), Array(true, subMenuItemCaption), 3));
         
         // if there is more than one item found something must have gone wrong!
-        if(objsubMenuItems.length != 1){
+        if(!(objsubMenuItems.length == 1)){
             Log.Error("The submenu item " + subMenuItemCaption + " was found more than once!");
         }
     }
@@ -41,7 +41,7 @@ class CoreHomePage {
         var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("Visible", "Caption"), Array(true, subMenuItemCaption), 3));
         
         // if there is more than one item found something must have gone wrong!
-        if(objsubMenuItems.length != 0){
+        if(!(objsubMenuItems.length == 0)){
             Log.Error("The submenu item " + subMenuItemCaption + " was found at least once!");
         }
     }
@@ -61,6 +61,17 @@ class CoreHomePage {
 
 
 
+    IHaveOpenedToolsSettings() {
+        var objMenu = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Name", "PropertyPage(\"The Ribbon\")", 6);
+
+        var objToolsTab = objMenu.FindChild("Caption", "Tools", 4);
+        objToolsTab.Click();
+
+        var objSettingsButton = objMenu.FindChild("Caption", "Settings", 4);
+        objSettingsButton.Click();
+
+        _basePage.ISeeTheP1Window("Application Settings");
+    }
 
 
 

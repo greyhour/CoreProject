@@ -5,7 +5,7 @@ Given("I should see the following checkboxes {arg}", function (checkboxNames)
     _checkbox.IShouldSeeTheFollowingCheckboxesP1(checkboxNames);
 });
 
-Given("I click the checkbox {arg}", function (checkboxName)
+Given("I set the checkbox {arg} to {arg}", function (checkboxName, state)
 {
-    _checkbox.IClickTheCheckboxP1(checkboxName);
+    _checkbox.ISetTheCheckboxP1ToP2(checkboxName, state);
 });
