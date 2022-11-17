@@ -23,3 +23,10 @@
 
 ## Events
 there are core events in the helpers > eventhandler folder. these can be referenced from the main project events section as needed
+
+## Config
+to set sql username and passwords create a file in projectName>Script>config,json
+    {
+        "sqlUsername": "username",
+        "sqlPassword": "******"
+    }

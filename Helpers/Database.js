@@ -1,12 +1,10 @@
 ﻿// database methods
-var user = "restore";
-var password = "*****";
-    
+var _config = new (require("Config")).Config;
     
 class Database {
     IRestoreDatabaseP1OnTheServerInstanceP2FromFilepathP3(database, serverInstance, backupFile) {
         var command = Utilities.GetCurrentDir() + "\\Script\\CoreProject\\Helpers\\Powershell\\Restore-SQLDatabaseComplex.ps1";
-        var variables = "-SQLInstance '" + serverInstance + "' -SQLDatabase '" + database + "' -SQLBackupFile '" + backupFile + "' -SQLUser '" + user + "' -SQLPassword '" + password + "'";
+        var variables = "-SQLInstance '" + serverInstance + "' -SQLDatabase '" + database + "' -SQLBackupFile '" + backupFile + "' -SQLUser '" + _config.sqlUsername + "' -SQLPassword '" + _config.sqlPassword + "'";
         
         var oShell = getActiveXObject("WScript.Shell"); // Or oShell = WshShell
         var oExec = oShell.Exec("powershell -command " + command + " " + variables);
