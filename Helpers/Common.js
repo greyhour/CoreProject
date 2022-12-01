@@ -27,9 +27,9 @@ class Common {
     }
     
     SplitSimpleArray(strArray) {
-        strArray = Replace(strArray, "{", "");
-        strArray = Replace(strArray, "}", "");
-        strArray = Split(strArray, ";");
+        strArray = strArray.replace("{", "");
+        strArray = strArray.replace("}", "");
+        strArray = strArray.split(";");
 
         strArray.slice().reverse().forEach(function(item, index, object) {
             if (item === 'N/A') {

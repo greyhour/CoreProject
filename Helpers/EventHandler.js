@@ -16,6 +16,7 @@ function EventHandling_OnLogError(Sender, LogParams) {
 function EventHandling_OnLogWarning(Sender, LogParams) {
     if (LogParams.MessageText.includes("New instances will not be launched.")) {
         Sys.Process(Project.Variables.CurrentWorkingApp).Terminate();
+        delay(3000);
         Log.Warning("The app was already opened, This could be because of previous fails. It will be reopened and the test-run will continue, but please check logs");
         _common.OpenApplication(Project.Variables.CurrentWorkingApp);
     } else {
