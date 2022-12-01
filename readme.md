@@ -27,6 +27,10 @@ there are core events in the helpers > eventhandler folder. these can be referen
 ## Config
 to set sql username and passwords create a file in projectName>Script>config,json
     {
-        "sqlUsername": "username",
-        "sqlPassword": "******"
+        "sqlUser": {
+            "sqlUsername": "user23",
+            "sqlPassword": "*****"
+        },
+        "resourceLocation": "//Resources//",
+        "downloadLocation": "//Downloads//"
     }

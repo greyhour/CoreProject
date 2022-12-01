@@ -1,7 +1,6 @@
 ﻿// common methods
 class Common {
-    IWaitForP1Seconds(seconds) 
-    {
+    IWaitForP1Seconds(seconds) {
         aqUtils.Delay(seconds * 1000);
         Log.Message("The script was delayed [" + seconds + "] seconds");
     }
@@ -9,14 +8,25 @@ class Common {
     IPressTheEnterKey() {
         this.CurrentForm().Keys("[Enter]");
     }
-
     
+    AddTempVariable(variableName, value) {
+        Common.tempVariables[variableName] = value;
+    }
     
+    GetTempVariable(variableName) {
+        return Common.tempVariables[variableName];
+    }
     
+    ReplaceTempVariable(input) {
+        if(input == "")
+            return input;
+        for(var key in Common.tempVariables) {
+            input = input.replace(key, Common.tempVariables[key]);
+        }
+        return input;
+    }
     
-    
-    SplitSimpleArray(strArray)
-    {
+    SplitSimpleArray(strArray) {
         strArray = Replace(strArray, "{", "");
         strArray = Replace(strArray, "}", "");
         strArray = Split(strArray, ";");
@@ -54,5 +64,5 @@ class Common {
 
 
 
-
+Common.tempVariables = {};
 module.exports = { Common: Common }

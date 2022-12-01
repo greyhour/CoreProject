@@ -9,3 +9,10 @@ Given("I should see the value {arg} in the textbox {arg}", function (value, inpu
 {
     _inputbox.IShouldSeeTheValueP1InTheTextboxP2(inputboxName, value);
 });
+
+
+
+Given("I save the value from the textbox {arg} as a temp variable {arg}", function (inputboxName, variableName)
+{
+    _inputbox.ISaveTheValueFromTheTextboxP1AsATempVariableP2(inputboxName, variableName);
+});

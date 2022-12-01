@@ -48,8 +48,8 @@ class CoreHomePage {
 
     IOpenP1FromNavbarmenuListP2AndIWillSeeP3Window(subMenuItemCaption, menuItemCaption, windowCaption) {
         var objSideBar = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Caption", "Main Navigation", 7);
-        var objmenuItem = objSideBar.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
-        var objsubMenuItem = objmenuItem.FindChild(Array("Visible", "Caption"), Array(true, subMenuItemCaption), 3);
+        var objmenuItem = objSideBar.FindChild(Array("VisibleOnScreen", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
+        var objsubMenuItem = objmenuItem.FindChild(Array("VisibleOnScreen", "Caption"), Array(true, subMenuItemCaption), 3);
 
         objsubMenuItem.Click(40, 9);
 

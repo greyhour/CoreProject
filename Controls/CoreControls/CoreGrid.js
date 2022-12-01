@@ -2,6 +2,7 @@
 
 class CoreGrid {
     GetRecord(gridName, record){
+        record = _common.ReplaceTempVariable(record);
         return this.GetGrid(gridName).FindChild("Value", "*" + record.slice(1,-1) + "*", 20);
     }
     GetGrid(gridName) {
@@ -19,7 +20,8 @@ class CoreGrid {
     OnGridP1IEnterTheValueP2IntoFilterColumnP3(gridName, filterColumn, value) {
         var objGrid = this.GetGrid(gridName);
         var objFilterCell = objGrid.FindChild(Array("ObjectType", "Caption"), Array("Cell", (filterColumn + " filter row")), 5);
-
+        
+        value = _common.ReplaceTempVariable(value);
         objFilterCell.Click();
         objFilterCell.Keys(value);
     }
@@ -66,6 +68,14 @@ class CoreGrid {
         }
 
         Log.Checkpoint("The correct amount of records were found");
+    }
+    
+    OnGridP1IEnterTheValueP2IntoColumnP3ForTheRecordP4(gridName, record, columnName, value) {
+        var objRecord = this.GetRecord(gridName, record);
+        var objCell = objRecord.FindChild(Array("ObjectType", "Caption"), Array("Cell", (columnName + " row *")), 5);
+
+        objCell.Click();
+        objCell.Keys("^a" + value);
     }
 }
 

@@ -5,6 +5,11 @@ Given("I select the value {arg} from the dropdown {arg}", function (value, dropd
     _dropdown.ISelectTheValueP1FromTheDropdownP2(dropdownName, value);
 });
 
+Given("I select the value {arg} from the dropdown {arg} without pressing enter", function (value, dropdownName)
+{
+    _dropdown.ISelectTheValueP1FromTheDropdownP2WithoutPressingEnter(dropdownName, value);
+});
+
 Given("I should see the value {arg} selected in the dropdown {arg}", function (value, dropdownName)
 {
     _dropdown.IShouldSeeTheValueP1SelectedInTheDropdownP2(dropdownName, value);

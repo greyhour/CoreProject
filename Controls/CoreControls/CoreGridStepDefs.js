@@ -34,3 +34,8 @@ Given("On grid {arg} i should see {arg} records in the list", function (gridName
 {
     _grid.OnGridP1IShouldSeeP2RecordsInTheList(gridName, recordCount);
 });
+
+Given("On grid {arg} i enter the value {arg} into column {arg} for the record {arg}", function (gridName, value, columnName, record)
+{
+    _grid.OnGridP1IEnterTheValueP2IntoColumnP3ForTheRecordP4(gridName, record, columnName, value);
+});
