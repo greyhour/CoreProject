@@ -24,43 +24,41 @@ class File {
         Log.Checkpoint("Saved file to " + filePath);
     }
 
-    IConfirmTheExcelFileP1MatchesTheOriginalFileP2(newFile, originalFile) {
-        var newFilePath = _config.downloadLocation + newFile;
-        var originalFilePath = _config.resourceLocation + originalFile;
-
-        let differencesDetected = 0;
+    IConfirmTheExcelFileP1MatchesTheOriginalFileP2(newFileName, originalFileName) {
+        var newFilePath = _config.downloadLocation + newFileName;
+        var originalFilePath = _config.resourceLocation + originalFileName;
         
-        let objOriginalFile = getActiveXObject("Excel.Application").Workbooks.Open(originalFilePath).ActiveSheet;
-        let objNewFile = getActiveXObject("Excel.Application").Workbooks.Open(newFilePath).ActiveSheet;
+        var newFile = Excel.Open(newFilePath).ActiveSheet;
+        var originalFile = Excel.Open(originalFilePath).ActiveSheet;
         
-
-
-        var originalCells = Array.from(objOriginalFile.UsedRange).slice();
-        var newCells = Array.from(objNewFile.UsedRange).slice();
-        
-        if(!(originalCells.length == newCells.length)){
-            Log.Error("The length of the two files were not the same!");
-        }
+        if(originalFile.ColumnCount != newFile.ColumnCount)
+            Log.Error("Wrong amount of columns!");
+            
+        if(originalFile.RowCount != newFile.RowCount)
+            Log.Error("Wrong amount of rows!");
         
         
-        originalCells.forEach((cell, index) => {
-            if (!(cell.Text == newCells[index].Text)) {
-                objNewFile.Cells.Item(newCells[index].Row, newCells[index].Column).Interior.ColorIndex = 6;
-                differencesDetected += 1;
+        var badCells = [];
+            
+        for (let r = 1; r <= originalFile.RowCount; r++) {
+            for (let c = 1; c <= originalFile.ColumnCount; c++) {
+                if(originalFile.Cell(c, r).Value != newFile.Cell(c, r).Value)
+                    badCells.push({c, r});
             }
-        });
-        
-        
-        // Save & close all excel files without having a save prompt (if there has been changes to the file)
-        objNewFile.Save();
-        objOriginalFile.Save();
-
-        //-------------------------------------------------------Assertion
-        if (differencesDetected > 0) {
-            Log.Error("[IMMEDIATE FAIL] : Detected [" + differencesDetected + "] data mismatch(es) between original & generated file. Please check the file contents for highlighted differences in file [" + newFilePath + "].");
-        } else {
-            Log.Checkpoint("[STEP PASS] : No data mismatches were found between the  original file [" + originalFilePath + "] & the new generated file [" + newFilePath + "].");
         }
+            
+        if(badCells.length > 0) {
+            let xl = getActiveXObject("Excel.Application");
+            let newWorksheet = xl.Workbooks.Open(newFilePath);
+            xl.DisplayAlerts = false;
+            xl.Visible = true;
+            badCells.forEach(cell => newWorksheet.ActiveSheet.Cells.Item(cell['r'], cell['r']).Interior.ColorIndex = 6);
+            newWorksheet.Save();
+            xl.Quit();
+            Log.Error("The two excel files are not the same! -see downloaded file for more info");
+        }
+        
+        Log.Checkpoint("The two files were identical");
     }
 }
 
