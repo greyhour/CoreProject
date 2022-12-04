@@ -52,7 +52,7 @@ class CoreGrid {
         var objRecord = this.GetRecord(gridName, record);
 
         if (objRecord.Exists) {
-            Log.Error("he record was found");
+            Log.Error("The record was found when it should not have been visible");
             return;
         }
         Log.Checkpoint("The record was not found");
