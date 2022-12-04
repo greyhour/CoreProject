@@ -69,6 +69,9 @@ class CoreHomePage {
 
         var objSettingsButton = objMenu.FindChild("Caption", "Settings", 4);
         objSettingsButton.Click();
+        
+        if(Project.Variables.CurrentWorkingApp == "FreshPackApples")
+            _basePage.ISeeThePopupMessageP1AndClickTheButtonP2("*A connection string named $QualityManager was not found in FreshPackApples.exe.config*", "Close");
 
         _basePage.ISeeTheP1Window("Application Settings");
     }
