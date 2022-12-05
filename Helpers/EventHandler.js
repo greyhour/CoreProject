@@ -3,29 +3,24 @@ var _common = new (require("Common")).Common;
 
 function EventHandling_OnLogError(Sender, LogParams) {
     if (LogParams.MessageText.includes("[IMMEDIATE FAIL]")) {
-        TestedApps.TerminateAll
-        Runner.Stop(true)
+        TestedApps.TerminateAll();
+        Runner.Stop(true);
     } else if (LogParams.MessageText.includes("Missing step definition")) {
-        TestedApps.TerminateAll
-        Runner.Stop(true)
-    } else {
-        // This is standard [STEP FAIL] which can still continue with test execution
+        TestedApps.TerminateAll();
+        Runner.Stop(true);
     }
 }
 
 function EventHandling_OnLogWarning(Sender, LogParams) {
     if (LogParams.MessageText.includes("New instances will not be launched.")) {
+        // and now termiante the app
         Sys.Process(Project.Variables.CurrentWorkingApp).Terminate();
-        
-        var oExec = getActiveXObject("WScript.Shell").Run("powershell -command taskkill /IM \"" + Project.Variables.CurrentWorkingApp + ".exe\" /F");
-        oExec.StdIn.Close();
-        Log.Message(oExec.StdOut.ReadAll());
-        
         delay(3000);
-        Log.Warning("The app was already opened, This could be because of previous fails. It will be reopened and the test-run will continue, but please check logs");
+        
+        Log.Warning("The app was already opened, trying to reopen..");
+        
+        // once its gone, lets reopen it
         _common.OpenApplication(Project.Variables.CurrentWorkingApp);
-    } else {
-        // This is standard [STEP INFO] which can still continue with test execution
     }
 }
 
