@@ -15,10 +15,10 @@ function EventHandling_OnLogWarning(Sender, LogParams) {
     if (LogParams.MessageText.includes("New instances will not be launched.")) {
         // and now termiante the app with admin rights
         Sys.Process(Project.Variables.CurrentWorkingApp).Terminate();
-        getActiveXObject("WScript.Shell").Run("powershell -command start-process powershell -ArgumentList 'powershell -command taskkill /IM \"" + Project.Variables.CurrentWorkingApp + ".exe\" /F' –verb runAs");
-        delay(3000);
-        
+        getActiveXObject("WScript.Shell").Exec("powershell -command start-process powershell -ArgumentList '/c taskkill /IM " + Project.Variables.CurrentWorkingApp + ".exe /F' -verb runAs");
+
         Log.Warning("The app was already opened, trying to reopen..");
+        delay(3000);
         
         // once its gone, lets reopen it
         _common.OpenApplication(Project.Variables.CurrentWorkingApp);
