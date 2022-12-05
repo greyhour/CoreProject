@@ -52,9 +52,10 @@ class File {
             let newWorksheet = xl.Workbooks.Open(newFilePath);
             xl.DisplayAlerts = false;
             xl.Visible = true;
-            badCells.forEach(cell => newWorksheet.ActiveSheet.Cells.Item(cell['c'], cell['r']).Interior.ColorIndex = 6);
+            badCells.forEach(cell => newWorksheet.ActiveSheet.Cells.Item(cell['r'], cell['c']).Interior.ColorIndex = 6);
             newWorksheet.Save();
             xl.Quit();
+            badCells.forEach(cell => Log.Message("The cell [column: " + cell['c'] + " | row: " + cell['r'] + "] did not match!"));
             Log.Error("The two excel files are not the same! -see downloaded file for more info");
         }
         
