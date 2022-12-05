@@ -4,7 +4,7 @@ class CoreBasePage {
     ISeeThePopupMessageP1AndClickTheButtonP2(message, buttonName) {
         if (message == "{N/A}" || message == "") { return; }
         
-        var objPopup = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild(Array("VisibleOnScreen", "Name"), Array(true, "Dialog*"), 2, true, 30000);
+        var objPopup = Sys.Process(Project.Variables.CurrentWorkingApp).FindChildEx(Array("VisibleOnScreen", "Name"), Array(true, "Dialog*"), 2, true, 30000);
         var objMessage = objPopup.FindChild(Array("VisibleOnScreen", "Value"), Array(true, message));
 
         if(!(objMessage.Exists)) {
