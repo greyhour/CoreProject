@@ -48,6 +48,8 @@ If($SQLDatabase -match '^FreshCool'){
 }Else{
     $ServiceAccount = 'RADFORDS\RSLService'
 }
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+Install-Module -Name SqlServer -AllowClobber -Force
 Import-Module SQLServer
 $SQL = @"
 DECLARE @mdf nvarchar(255),@ldf nvarchar(255), @lojD nvarchar(128), @lojL nvarchar(128)
