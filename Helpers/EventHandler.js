@@ -2,19 +2,20 @@
 var _common = new (require("Common")).Common;
 
 function EventHandling_OnLogError(Sender, LogParams) {
-    if (LogParams.MessageText.includes("[IMMEDIATE FAIL]")) {
-        TestedApps.TerminateAll();
-        Runner.Stop(true);
-    } else if (LogParams.MessageText.includes("Missing step definition")) {
-        TestedApps.TerminateAll();
-        Runner.Stop(true);
+    if (LogParams.MessageText.includes("[DELAYED FAIL]")) {
+        Log.Warning("Continuing after error");
+        return;
     }
+
+    TestedApps.TerminateAll();
+    Runner.Stop(true);
 }
 
 function EventHandling_OnLogWarning(Sender, LogParams) {
     if (LogParams.MessageText.includes("New instances will not be launched.")) {
         // and now termiante the app with admin rights
         Sys.Process(Project.Variables.CurrentWorkingApp).Terminate();
+        
         getActiveXObject("WScript.Shell").Exec("powershell -command start-process powershell -ArgumentList '/c taskkill /IM " + Project.Variables.CurrentWorkingApp + ".exe /F' -verb runAs");
 
         Log.Warning("The app was already opened, trying to reopen..");

@@ -39,7 +39,7 @@ class CoreCheckbox {
             return;
         }
         
-        Log.Error("The state given was unknown. [CHECKED/UNCHECKED]");
+        Log.Error("[IMMEDIATE FAIL]: The state given was unknown. [CHECKED/UNCHECKED]");
     }
 }
 

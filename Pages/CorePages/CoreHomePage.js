@@ -25,11 +25,11 @@ class CoreHomePage {
     IShouldSeeMenuItemP1ListedOnlyOnceInTheLeftNavigationMenuBarForP2(menuItemCaption, subMenuItemCaption) {
         // lets get all the main menu items with the expected caption
         var objSideBar = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Caption", "Main Navigation", 7);
-        var objmenuItem = objSideBar.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
-        var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("Visible", "ObjectType", "Caption"), Array(true, "ListItem", subMenuItemCaption), 3));
-        
+        var objmenuItem = objSideBar.FindChild(Array("VisibleOnScreen", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
+        var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("VisibleOnScreen", "Caption"), Array(true, subMenuItemCaption), 3));
+
         // if there is more than one item found something must have gone wrong!
-        if(!(objsubMenuItems.length == 1)){
+        if(!(objsubMenuItems.length == 1)) {
             objsubMenuItems.forEach(element => Log.Message("Element Found: " + element.FullName));
             Log.Error("The submenu item " + subMenuItemCaption + " was found more than once!");
         }
@@ -38,8 +38,8 @@ class CoreHomePage {
     IShouldNotSeeMenuItemP1InTheLeftNavigationMenuVarForP2(menuItemCaption, subMenuItemCaption) {
         // lets get all the main menu items with the expected caption
         var objSideBar = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild("Caption", "Main Navigation", 7);
-        var objmenuItem = objSideBar.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
-        var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("Visible", "Caption"), Array(true, subMenuItemCaption), 3));
+        var objmenuItem = objSideBar.FindChild(Array("VisibleOnScreen", "ObjectType", "Caption"), Array(true, "List", menuItemCaption), 5);
+        var objsubMenuItems = Array.from(objmenuItem.FindAllChildren(Array("VisibleOnScreen", "Caption"), Array(true, subMenuItemCaption), 3));
         
         // if there is more than one item found something must have gone wrong!
         if(!(objsubMenuItems.length == 0)){
