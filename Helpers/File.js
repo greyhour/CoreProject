@@ -42,7 +42,7 @@ class File {
             
         for (let r = 1; r <= originalFile.RowCount; r++) {
             for (let c = 1; c <= originalFile.ColumnCount; c++) {
-                if(originalFile.Cell(c, r).Value != newFile.Cell(c, r).Value)
+                if(String(originalFile.Cell(c, r).Value) != String(newFile.Cell(c, r).Value))
                     badCells.push({c, r});
             }
         }

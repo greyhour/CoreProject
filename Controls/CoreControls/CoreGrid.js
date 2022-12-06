@@ -23,7 +23,7 @@ class CoreGrid {
         
         value = _common.ReplaceTempVariable(value);
         objFilterCell.Click();
-        objFilterCell.Keys(value);
+        objFilterCell.Keys("^a" + value);
     }
 
     OnGridP1ISelectTheFollowingRecordInTheListP2(gridName, record) {

@@ -29,7 +29,14 @@ class CoreBasePage {
         var objApp = Sys.WaitProcess(Project.Variables.CurrentWorkingApp, 10000);
         var objForm = objApp.FindChildEx(Array("WndCaption", "Visible"), Array(windowCaption, true), 2, true, 60000);
 
-        objForm.SetFocus();
+        try {
+            objForm.SetFocus();
+        } catch (e) {
+            Log.Warning(e.message);
+            delay(5000);
+            objForm.SetFocus();
+        }
+        
         Project.Variables.CurrentWorkingForm = objForm.WndCaption;
     }
 
