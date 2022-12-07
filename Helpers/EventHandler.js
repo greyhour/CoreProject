@@ -24,6 +24,10 @@ function EventHandling_OnLogWarning(Sender, LogParams) {
         // once its gone, lets reopen it
         _common.OpenApplication(Project.Variables.CurrentWorkingApp);
     }
+    
+    if(LogParams.MessageText.includes("The window cannot get focus.")) {
+        Log.Warning("The window cannot get focus.");
+    }
 }
 
 function EventHandling_OnUnexpectedWindow(Sender, Window, LogParams) {

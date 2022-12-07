@@ -29,8 +29,12 @@ class CoreBasePage {
         var objApp = Sys.WaitProcess(Project.Variables.CurrentWorkingApp, 10000);
         var objForm = objApp.FindChildEx(Array("WndCaption", "Visible"), Array(windowCaption, true), 2, true, 60000);
         
-        Project.Variables.CurrentWorkingForm = objForm.WndCaption;
-        objForm.SetFocus();
+        if (objForm.WaitProperty("Enabled", true, 15000)) {
+            Project.Variables.CurrentWorkingForm = objForm.WndCaption;
+            objForm.SetFocus();
+        } else {
+            Log.Error("The window " + windowCaption + " was not enabled");
+        }
     }
 
     IShouldNotSeeAnyUnexpectedErrorMessages()
