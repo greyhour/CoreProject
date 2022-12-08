@@ -16,8 +16,6 @@ function EventHandling_OnLogWarning(Sender, LogParams) {
         // and now termiante the app with admin rights
         Sys.Process(Project.Variables.CurrentWorkingApp).Terminate();
         
-        getActiveXObject("WScript.Shell").Exec("powershell -command start-process powershell -ArgumentList '/c taskkill /IM " + Project.Variables.CurrentWorkingApp + ".exe /F' -verb runAs");
-
         Log.Warning("The app was already opened, trying to reopen..");
         delay(3000);
         
