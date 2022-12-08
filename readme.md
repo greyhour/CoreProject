@@ -1,6 +1,7 @@
 # Core Project created to help automate anything using RadfordsFrameworkCore
 
 ## Cloning using submodules
+- git submodule add <url> FreshSales.Testing/Script/CoreProject
 - use the `--recursive` flag to ensure submodules are cloned as well
 - to update submodules use `git submodule update --init`
 
