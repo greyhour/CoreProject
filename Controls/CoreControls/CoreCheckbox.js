@@ -9,7 +9,7 @@ class CoreCheckbox {
         checkboxNames.forEach(checkbox => {
             if(!(_common.CurrentForm().FindChild("Caption", checkbox, 10).VisibleOnScreen))
             {
-                Log.Error("Could not identify checkbox " + checkbox);
+                Log.Error("[DELAYED FAIL] Could not identify checkbox " + checkbox);
             }
         });
     }

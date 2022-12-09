@@ -31,7 +31,7 @@ class CoreHomePage {
         // if there is more than one item found something must have gone wrong!
         if(!(objsubMenuItems.length == 1)) {
             objsubMenuItems.forEach(element => Log.Message("Element Found: " + element.FullName));
-            Log.Error("The submenu item " + subMenuItemCaption + " was found more than once!");
+            Log.Error("[DELAYED FAIL] The submenu item " + subMenuItemCaption + " was found more than once!");
         }
     }
 
@@ -131,7 +131,7 @@ class CoreHomePage {
         
         // if there is more than one item found something must have gone wrong!
         if(objsubMenuItems.length != 1){
-            Log.Error("The submenu item " + subMenuItemCaption + " was found more or less than once! Found " + objsubMenuItems.length + " times.");
+            Log.Error("[DELAYED FAIL] The submenu item " + subMenuItemCaption + " was found more or less than once! Found " + objsubMenuItems.length + " times.");
         }
     }
     
