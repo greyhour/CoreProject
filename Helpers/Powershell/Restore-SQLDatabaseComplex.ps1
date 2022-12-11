@@ -1,32 +1,16 @@
 ﻿[CmdletBinding(DefaultParameterSetName='Cred')]
 Param(
-[Parameter(Mandatory=$true)]
-$SQLInstance = 'RSLSQL04'
-,
-[Parameter(Mandatory=$true)]
-$SQLDatabase = 'FreshCoolTest'
-,
-[Parameter(Mandatory=$true)]
-$SQLBackupFile = '\\rslsql04.radfords.internal\SQLBackup\FC-EP\FC_Iteration_Test_Backup.bak'
-,
-[Parameter(ParameterSetName='NoCred',Mandatory=$true)]
-[Parameter(ParameterSetName='SecNoCred',Mandatory=$false)]
-$SQLUser = 'FCRestore'
-,
-[Parameter(ParameterSetName='NoCred',Mandatory=$true)]
-$SQLPassword
-,
-[Parameter(ParameterSetName='SecNoCred')]
-[string]
-$SecurePassword = '76492d1116743f0423413b16050a5345MgB8AEcAUwB6ADgAWAB3ADUAYwB1AGwAawB3AGcAbwBoAGgANwBNAEoAMwBoAHcAPQA9AHwANQBmADMAMQBjADQAOABjAGUAOABmADQAMwAxADcANQBkAGEANwBlAGQAZQBhADMAZQA5ADEAOAA3ADUAMgBkADAANwBkAGYAZgAzAGEAMAAxAGUAMwA2ADYAMQBiAGEANABjAGIAYwA2AGQANABlADMAZABkADYAMABkADIAOQA='
-,
-[Parameter(ParameterSetName='Cred',Mandatory=$true)]
-[pscredential]
-$Credential
-,
-[byte[]]
-$Key = @(52,0,90,0,71,0,100,0,101,0,120,0,56,0,72,0)
+    [Parameter(Mandatory=$true)] $SQLInstance,
+    [Parameter(Mandatory=$true)] $SQLDatabase,
+    [Parameter(Mandatory=$true)] $SQLBackupFile,
+    [Parameter(ParameterSetName='NoCred',Mandatory=$true)]
+    [Parameter(ParameterSetName='SecNoCred',Mandatory=$false)] $SQLUser,
+    [Parameter(ParameterSetName='NoCred',Mandatory=$true)] $SQLPassword,
+    [Parameter(ParameterSetName='SecNoCred')] [string] $SecurePassword = 'password',
+    [Parameter(ParameterSetName='Cred',Mandatory=$true)] [pscredential] $Credential,
+    [byte[]] $Key = @(52,0,90,0,71,0,100,0,101,0,120,0,56,0,72,0)
 )
+
 $ErrorActionPreference = 'Stop'
 Switch ($PSCmdlet.ParameterSetName){
     'NoCred'{
@@ -37,20 +21,31 @@ Switch ($PSCmdlet.ParameterSetName){
         $Credential = New-Object -TypeName 'PSCredential' -ArgumentList ($SQLUser,(ConvertTo-SecureString -String $SecurePassword -Key $Key))
     }
 }
-If(!(Test-Path -Path $SQLBackupFile)){
+
+If(!(Test-Path -Path $SQLBackupFile)) {
     Write-Error -Message ('Backup File {0} Not Found' -f $SQLBackupFile)
     Break
 }
-If($SQLDatabase -match '^FreshCool'){
-    $ServiceAccount = 'RADFORDS\svc.FreshCool'
-}ElseIf($SQLDatabase -match '^FreshGrow'){
-    $ServiceAccount = 'RADFORDS\svc.FreshGrow'
-}Else{
-    $ServiceAccount = 'RADFORDS\RSLService'
+
+$ServiceAccount = 'RADFORDS\RSLService'
+
+If (-not(Get-InstalledModule SQLServer -ErrorAction silentlycontinue)) {
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    Install-Module -Name SqlServer -AllowClobber -Force
+    Import-Module SQLServer
 }
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-Install-Module -Name SqlServer -AllowClobber -Force
-Import-Module SQLServer
+
+$ZippedSQLBackupFile = $SQLBackupFile
+if ($ZippedSQLBackupFile -match '.7z$') {
+    $SQLBackupFile = $ZippedSQLBackupFile -replace '.7z$', '.bak'
+    If (-not(Get-InstalledModule 7Zip4PowerShell -ErrorAction silentlycontinue)) {
+        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+        Set-PSRepository -Name 'PSGallery' -SourceLocation "https://www.powershellgallery.com/api/v2" -InstallationPolicy Trusted
+        Install-Module -Name 7Zip4PowerShell -AllowClobber -Force
+    }
+    Expand-7Zip -ArchiveFileName $ZippedSQLBackupFile -TargetPath (Split-Path -Path $SQLBackupFile)
+}
+
 $SQL = @"
 DECLARE @mdf nvarchar(255),@ldf nvarchar(255), @lojD nvarchar(128), @lojL nvarchar(128)
 USE [master]
@@ -116,9 +111,9 @@ CREATE USER [$ServiceAccount] FOR LOGIN [$ServiceAccount]
 ALTER ROLE [db_owner] ADD MEMBER [$ServiceAccount]
 END
 "@
-If([String]::IsNullOrEmpty($SQLUser)){
+If([String]::IsNullOrEmpty($SQLUser)) {
     Invoke-Sqlcmd -ServerInstance $SQLInstance -Database 'master' -Query $SQL -QueryTimeout 3600
-}else{
+} else {
     Invoke-Sqlcmd -ServerInstance $SQLInstance -Database 'master' -Query $SQL -QueryTimeout 3600 -Credential $Credential
 }
 $SQL = @"
@@ -128,8 +123,12 @@ DECLARE @lojL varchar(128) = (SELECT smf.name
 DBCC SHRINKFILE (@lojL , 0)
 GO
 "@
-If([String]::IsNullOrEmpty($SQLUser)){
+If([String]::IsNullOrEmpty($SQLUser)) {
     Invoke-Sqlcmd -ServerInstance $SQLInstance -Database $SQLDatabase -Query $SQL -QueryTimeout 3600
-}else{
+} else {
     Invoke-Sqlcmd -ServerInstance $SQLInstance -Database $SQLDatabase -Query $SQL -QueryTimeout 3600 -Credential $Credential
+}
+
+if ($ZippedSQLBackupFile -match '.7z$') {
+    Remove-Item $SQLBackupFile
 }
