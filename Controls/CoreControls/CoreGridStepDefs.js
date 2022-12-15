@@ -39,3 +39,8 @@ Given("On grid {arg} i enter the value {arg} into column {arg} for the record {a
 {
     _grid.OnGridP1IEnterTheValueP2IntoColumnP3ForTheRecordP4(gridName, record, columnName, value);
 });
+
+Given("On grid {arg} i right click on the record {arg} and select menu item {arg}", function (gridName, record, menuItem)
+{
+    _grid.OnGridP1IRightClickOnTheRecordP2AndSelectMenuItemP3(gridName, record, menuItem);
+});

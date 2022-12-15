@@ -77,6 +77,17 @@ class CoreGrid {
         objCell.Click();
         objCell.Keys("^a" + value);
     }
+    
+    OnGridP1IRightClickOnTheRecordP2AndSelectMenuItemP3(gridName, record, menuItem) {
+        var objRecord = this.GetRecord(gridName, record);
+        
+        objRecord.ClickR(20, 5);
+        delay(500);
+        
+        var objMenu = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild(Array("Visible", "Name"), Array(true, "*PopupMenuBarControl*"), 3);
+        var objMenuButton = objMenu.FindChild("Caption", menuItem);
+        objMenuButton.Click();
+    }
 }
 
 
