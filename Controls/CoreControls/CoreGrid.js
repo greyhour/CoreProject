@@ -88,6 +88,16 @@ class CoreGrid {
         var objMenuButton = objMenu.FindChild("Caption", menuItem);
         objMenuButton.Click();
     }
+    
+    OnGridP1ISeeTheValueP2ForTheCellP3(gridName, value, cell) {
+        var objGrid = this.GetGrid(gridName);
+        
+        var objCell = objGrid.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "Cell", cell), 5);
+        if (!(objCell.Value == value)){
+            Log.Error("The value " + value + " and the cell value " + objCell.Value + " did not match");
+            return;
+        }
+    }
 }
 
 

@@ -44,3 +44,8 @@ Given("On grid {arg} i right click on the record {arg} and select menu item {arg
 {
     _grid.OnGridP1IRightClickOnTheRecordP2AndSelectMenuItemP3(gridName, record, menuItem);
 });
+
+Given("On grid {arg} i see the value {arg} for the cell {arg}", function (gridName, value, cell)
+{
+    _grid.OnGridP1ISeeTheValueP2ForTheCellP3(gridName, value, cell);
+});
