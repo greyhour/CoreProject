@@ -98,6 +98,14 @@ class CoreGrid {
             return;
         }
     }
+    
+    OnGridP1IEnterTheValueP3ForTheCellP3(gridName, value, cell) {
+        var objGrid = this.GetGrid(gridName);
+        var objCell = objGrid.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "Cell", cell), 5);
+        
+        objCell.Click();
+        objCell.Keys("^a" + value);
+    }
 }
 
 

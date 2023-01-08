@@ -49,3 +49,8 @@ Given("On grid {arg} i see the value {arg} for the cell {arg}", function (gridNa
 {
     _grid.OnGridP1ISeeTheValueP2ForTheCellP3(gridName, value, cell);
 });
+
+Given("On grid {arg} i enter the value {arg} for the cell {arg}", function (gridName, value, cell)
+{
+    _grid.OnGridP1IEnterTheValueP3ForTheCellP3(gridName, value, cell);
+});
