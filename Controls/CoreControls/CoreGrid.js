@@ -106,6 +106,49 @@ class CoreGrid {
         objCell.Click();
         objCell.Keys("^a" + value);
     }
+    
+    OnGridP1ISetTheCheckboxCellP2ToP3(gridName, cell, state) {
+        var objGrid = this.GetGrid(gridName);
+        var objCell = objGrid.FindChild(Array("Visible", "ObjectType", "Caption"), Array(true, "Cell", cell), 5);
+        
+        if(state.toUpperCase() == "CHECKED") {
+            if(!(objCell.Value == state.toUpperCase())) {
+                objCell.Click();
+                if(!(objCell.Value == state.toUpperCase()))
+                    objCell.Click();
+                Log.Checkpoint("The checkbox was not checked so was clicked");
+                return;
+            }
+            Log.Checkpoint("The checkbox was already checked so nothing was done");
+            return;
+        }
+
+        if(state.toUpperCase() == "UNCHECKED") {
+            if(objCell.Value == state.toUpperCase()) {
+                objCell.Click();
+                if(!(objCell.Value == state.toUpperCase()))
+                    objCell.Click();
+                Log.Checkpoint("The checkbox was checked so was clicked");
+                return;
+            }
+            Log.Checkpoint("The checkbox was not checked so nothing was done");
+            return;
+        }
+        
+        Log.Error("[IMMEDIATE FAIL]: The state given was unknown. [CHECKED/UNCHECKED]");
+    }
+    
+    OnGridP1IShouldSeeTheTotalOfP2(gridName, total) {
+        var objGrid = this.GetGrid(gridName);
+        var objCellTotal = objGrid.FindChild(Array("Visible", "Name", "Value"), Array(true, "Cell(\"Total\")", total), 5);
+        
+        if(!(objCellTotal.Exists)){
+            Log.Error("The total " + total + " was not found correctly");
+            return;
+        }
+        
+        Log.Checkpoint("The total was found & is correct");
+    }
 }
 
 

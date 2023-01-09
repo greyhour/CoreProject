@@ -54,3 +54,13 @@ Given("On grid {arg} i enter the value {arg} for the cell {arg}", function (grid
 {
     _grid.OnGridP1IEnterTheValueP3ForTheCellP3(gridName, value, cell);
 });
+
+Given("On grid {arg} i set the checkbox cell {arg} to {arg}", function (gridName, cell, state)
+{
+    _grid.OnGridP1ISetTheCheckboxCellP2ToP3(gridName, cell, state);
+});
+
+Given("On grid {arg} i should see the total of {arg}", function (gridName, total)
+{
+    _grid.OnGridP1IShouldSeeTheTotalOfP2(gridName, total);
+});
