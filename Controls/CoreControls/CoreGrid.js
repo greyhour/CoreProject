@@ -78,6 +78,18 @@ class CoreGrid {
         objCell.Keys("^a" + value);
     }
     
+    OnGridP1IRightClickTheHeaderAndSelectMenuItemP2(gridName, menuItem) {
+        var objGrid = this.GetGrid(gridName);
+        var objHeader = objGrid.FindChild(Array("ObjectIdentifier"), Array("Header Panel"), 5);
+        
+        objHeader.ClickR(20, 5);
+        delay(500);
+        
+        var objMenu = Sys.Process(Project.Variables.CurrentWorkingApp).FindChild(Array("Visible", "Name"), Array(true, "*Popup*"), 3);
+        var objMenuButton = objMenu.FindChild("Caption", menuItem);
+        objMenuButton.Click();
+    }
+    
     OnGridP1IRightClickOnTheRecordP2AndSelectMenuItemP3(gridName, record, menuItem) {
         var objRecord = this.GetRecord(gridName, record);
         
